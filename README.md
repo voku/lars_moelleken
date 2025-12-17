@@ -1,20 +1,68 @@
-<div align="center">
-<img width="1200" height="475" alt="GHBanner" src="https://github.com/user-attachments/assets/0aa67016-6eaf-458a-adb2-6e31a0763ed6" />
-</div>
+# Lars Moelleken - Portfolio
 
-# Run and deploy your AI Studio app
+Professional portfolio website for Lars Moelleken, Senior PHP Developer & Software Architect.
 
-This contains everything you need to run your app locally.
+## Features
 
-View your app in AI Studio: https://ai.studio/apps/drive/1W1jcvl4tzYYz2HrNjbpbMTJE8lTHmIt1
+- Modern, responsive design with Tailwind CSS
+- Accessible UI with ARIA labels and keyboard navigation
+- Sections: About, Experience, Projects, Skills, Contact
+- Optimized for performance and SEO
 
-## Run Locally
+## Prerequisites
 
-**Prerequisites:**  Node.js
+- Node.js (v18 or higher)
+- npm
 
+## Development
 
 1. Install dependencies:
-   `npm install`
-2. Set the `GEMINI_API_KEY` in [.env.local](.env.local) to your Gemini API key
-3. Run the app:
-   `npm run dev`
+   ```bash
+   npm install
+   ```
+
+2. Start the development server:
+   ```bash
+   npm run dev
+   ```
+
+3. Open your browser and navigate to `http://localhost:3000`
+
+## Build
+
+To create a production build:
+
+```bash
+npm run build
+```
+
+The built files will be in the `dist` directory.
+
+## Preview Production Build
+
+To preview the production build locally:
+
+```bash
+npm run preview
+```
+
+## Technology Stack
+
+- **Framework**: React 19
+- **Build Tool**: Vite
+- **Styling**: Tailwind CSS
+- **Icons**: Lucide React
+- **Language**: TypeScript
+
+## Project Structure
+
+- `App.tsx` - Main application component
+- `constants.ts` - Profile data, projects, skills, and experience
+- `types.ts` - TypeScript type definitions
+- `index.tsx` - Application entry point
+- `index.html` - HTML template
+- `vite.config.ts` - Vite configuration
+
+## License
+
+© 2024 Lars Moelleken. All rights reserved.
