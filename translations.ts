@@ -12,6 +12,7 @@ export interface Translations {
     socialLinks: string;
     contactSection: string;
     mainNav: string;
+    secondaryNav: string;
   };
   // Hero Section
   hero: {
@@ -53,11 +54,16 @@ export interface Translations {
     blog: string;
     footer: string;
     location: string;
+    emailLabel: string;
+    githubLabel: string;
+    websiteLabel: string;
   };
   // Buttons
   buttons: {
     letsTalk: string;
     downloadPDF: string;
+    switchToEnglish: string;
+    switchToGerman: string;
   };
 }
 
@@ -73,6 +79,7 @@ export const translations: Record<Language, Translations> = {
       socialLinks: 'Soziale Netzwerke und Links',
       contactSection: 'Kontaktbereich öffnen',
       mainNav: 'Hauptnavigation',
+      secondaryNav: 'Sekundärnavigation im Footer',
     },
     hero: {
       status: 'Open to Work',
@@ -117,10 +124,15 @@ Was mich ausmacht:
       blog: 'Tech-Blog',
       footer: '© {year} Lars Moelleken — Senior Software Architect',
       location: 'NRW / Remote',
+      emailLabel: 'Email:',
+      githubLabel: 'GitHub:',
+      websiteLabel: 'Website:',
     },
     buttons: {
       letsTalk: "Let's Talk",
       downloadPDF: 'Als PDF speichern',
+      switchToEnglish: 'Auf Englisch umschalten',
+      switchToGerman: 'Auf Deutsch umschalten',
     },
   },
   en: {
@@ -134,6 +146,7 @@ Was mich ausmacht:
       socialLinks: 'Social networks and links',
       contactSection: 'Open contact section',
       mainNav: 'Main navigation',
+      secondaryNav: 'Secondary navigation in footer',
     },
     hero: {
       status: 'Open to Work',
@@ -178,10 +191,15 @@ What defines me:
       blog: 'Tech Blog',
       footer: '© {year} Lars Moelleken — Senior Software Architect',
       location: 'NRW / Remote',
+      emailLabel: 'Email:',
+      githubLabel: 'GitHub:',
+      websiteLabel: 'Website:',
     },
     buttons: {
       letsTalk: "Let's Talk",
       downloadPDF: 'Save as PDF',
+      switchToEnglish: 'Switch to English',
+      switchToGerman: 'Switch to German',
     },
   },
 };

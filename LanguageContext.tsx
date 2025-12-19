@@ -15,7 +15,7 @@ export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({ chil
   // Check if there's a saved language preference, default to German
   const [language, setLanguageState] = useState<Language>(() => {
     const saved = localStorage.getItem('language');
-    return (saved === 'en' || saved === 'de') ? saved : 'de';
+    return (saved && saved in translations) ? saved as Language : 'de';
   });
 
   useEffect(() => {

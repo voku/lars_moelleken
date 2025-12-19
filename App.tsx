@@ -244,23 +244,25 @@ const App: React.FC = () => {
             </button>
             
             <div className="hidden md:flex items-center space-x-2">
-              {[t.nav.about, t.nav.experience, t.nav.projects, t.nav.skills].map((item, index) => {
-                const sectionId = ['about', 'experience', 'projects', 'skills'][index];
-                return (
-                  <button
-                    key={sectionId}
-                    onClick={() => scrollTo(sectionId)}
-                    aria-current={activeSection === sectionId ? 'page' : undefined}
-                    className={`${
-                      activeSection === sectionId
-                        ? 'bg-sunset text-white shadow-lg shadow-sunset/20'
-                        : 'text-slate-600 hover:text-slate-900 hover:bg-slate-50'
-                    } px-5 py-2 rounded-xl text-sm font-bold transition-all duration-300 focus-visible:ring-2 focus-visible:ring-sunset focus-visible:ring-offset-2`}
-                  >
-                    {item}
-                  </button>
-                );
-              })}
+              {[ 
+                { id: 'about', label: t.nav.about },
+                { id: 'experience', label: t.nav.experience },
+                { id: 'projects', label: t.nav.projects },
+                { id: 'skills', label: t.nav.skills },
+              ].map((item) => (
+                <button
+                  key={item.id}
+                  onClick={() => scrollTo(item.id)}
+                  aria-current={activeSection === item.id ? 'page' : undefined}
+                  className={`${
+                    activeSection === item.id
+                      ? 'bg-sunset text-white shadow-lg shadow-sunset/20'
+                      : 'text-slate-600 hover:text-slate-900 hover:bg-slate-50'
+                  } px-5 py-2 rounded-xl text-sm font-bold transition-all duration-300 focus-visible:ring-2 focus-visible:ring-sunset focus-visible:ring-offset-2`}
+                >
+                  {item.label}
+                </button>
+              ))}
             </div>
             
             <div className="flex items-center gap-3">
@@ -268,8 +270,8 @@ const App: React.FC = () => {
               <button
                 onClick={toggleLanguage}
                 className="p-2.5 rounded-xl bg-slate-50 hover:bg-slate-100 text-slate-600 hover:text-slate-900 transition-all focus-visible:ring-2 focus-visible:ring-sunset print:hidden"
-                aria-label={`Switch to ${language === 'de' ? 'English' : 'German'}`}
-                title={`Switch to ${language === 'de' ? 'English' : 'German'}`}
+                aria-label={language === 'de' ? t.buttons.switchToEnglish : t.buttons.switchToGerman}
+                title={language === 'de' ? t.buttons.switchToEnglish : t.buttons.switchToGerman}
               >
                 <Languages className="w-5 h-5" aria-hidden={true} />
                 <span className="ml-1 text-xs font-bold uppercase">{language === 'de' ? 'EN' : 'DE'}</span>
@@ -676,17 +678,17 @@ const App: React.FC = () => {
             <div className="space-y-4">
               <div className="flex items-center gap-3">
                 <Mail className="w-5 h-5 text-sunset" />
-                <span className="font-bold">Email:</span>
+                <span className="font-bold">{t.contact.emailLabel}</span>
                 <span>{PROFILE.email}</span>
               </div>
               <div className="flex items-center gap-3">
                 <Github className="w-5 h-5 text-sunset" />
-                <span className="font-bold">GitHub:</span>
+                <span className="font-bold">{t.contact.githubLabel}</span>
                 <span>github.com/voku</span>
               </div>
               <div className="flex items-center gap-3">
                 <Globe className="w-5 h-5 text-sunset" />
-                <span className="font-bold">Website:</span>
+                <span className="font-bold">{t.contact.websiteLabel}</span>
                 <span>moelleken.org</span>
               </div>
             </div>
@@ -694,7 +696,7 @@ const App: React.FC = () => {
 
           <div className="pt-20 border-t border-slate-100 text-slate-500 font-bold space-y-4 print:pt-8">
             <p className="text-lg">{t.contact.footer.replace('{year}', new Date().getFullYear().toString())}</p>
-            <nav className="flex justify-center gap-4 text-sm uppercase tracking-widest font-black" aria-label={language === 'de' ? 'Sekundärnavigation im Footer' : 'Secondary navigation in footer'}>
+            <nav className="flex justify-center gap-4 text-sm uppercase tracking-widest font-black" aria-label={t.nav.secondaryNav}>
               <span className="text-sunset-dark">{t.contact.location.split(' / ')[0]}</span>
               <span aria-hidden="true">/</span>
               <span>{t.contact.location.split(' / ')[1]}</span>
