@@ -13,9 +13,12 @@ import {
   Layers as LayersIcon,
   Sparkles,
   MessageCircle,
-  BookOpen
+  BookOpen,
+  Download,
+  Languages
 } from 'lucide-react';
-import { EXPERIENCE, PROFILE, PROJECTS, SKILLS, SOCIAL_LINKS } from './constants';
+import { PROFILE, SKILLS, SOCIAL_LINKS } from './constants';
+import { useLanguage } from './LanguageContext';
 
 const SkillIcon: React.FC<{ iconName: string }> = ({ iconName }) => {
   const commonProps = {
@@ -160,6 +163,7 @@ const SkillIcon: React.FC<{ iconName: string }> = ({ iconName }) => {
 };
 
 const App: React.FC = () => {
+  const { language, setLanguage, t, experience, projects } = useLanguage();
   const [activeSection, setActiveSection] = useState('home');
 
   useEffect(() => {
@@ -205,6 +209,14 @@ const App: React.FC = () => {
     }
   };
 
+  const handlePrintPDF = () => {
+    window.print();
+  };
+
+  const toggleLanguage = () => {
+    setLanguage(language === 'de' ? 'en' : 'de');
+  };
+
   return (
     <div className="min-h-screen font-sans selection:bg-sunset-100 selection:text-sunset-500 text-slate-700 bg-white">
       {/* Skip to Content Link */}
@@ -212,16 +224,16 @@ const App: React.FC = () => {
         href="#main-content" 
         className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[100] focus:px-6 focus:py-3 focus:bg-sunset focus:text-white focus:font-bold focus:rounded-xl focus:shadow-2xl"
       >
-        Zum Hauptinhalt springen
+        {t.nav.skipToContent}
       </a>
 
-      <header className="fixed top-0 left-0 right-0 z-50 bg-white/70 backdrop-blur-xl border-b border-white/40">
-        <nav className="max-w-6xl mx-auto px-6" aria-label="Hauptnavigation">
+      <header className="fixed top-0 left-0 right-0 z-50 bg-white/70 backdrop-blur-xl border-b border-white/40 print:hidden">
+        <nav className="max-w-6xl mx-auto px-6" aria-label={t.nav.mainNav}>
           <div className="flex items-center justify-between h-20">
             <button 
               className="flex items-center gap-3 cursor-pointer group focus-visible:outline-sunset" 
               onClick={() => scrollTo('home')}
-              aria-label="Zurück zum Seitenanfang"
+              aria-label={t.nav.backToTop}
             >
               <div className="p-2 rounded-2xl bg-sunset-50 group-hover:bg-sunset-100 transition-colors">
                 <Sparkles className="h-6 w-6 text-sunset" aria-hidden={true} />
@@ -232,33 +244,58 @@ const App: React.FC = () => {
             </button>
             
             <div className="hidden md:flex items-center space-x-2">
-              {['About', 'Experience', 'Projects', 'Skills'].map((item) => (
-                <button
-                  key={item}
-                  onClick={() => scrollTo(item.toLowerCase())}
-                  aria-current={activeSection === item.toLowerCase() ? 'page' : undefined}
-                  className={`${
-                    activeSection === item.toLowerCase()
-                      ? 'bg-sunset text-white shadow-lg shadow-sunset/20'
-                      : 'text-slate-600 hover:text-slate-900 hover:bg-slate-50'
-                  } px-5 py-2 rounded-xl text-sm font-bold transition-all duration-300 focus-visible:ring-2 focus-visible:ring-sunset focus-visible:ring-offset-2`}
-                >
-                  {item}
-                </button>
-              ))}
+              {[t.nav.about, t.nav.experience, t.nav.projects, t.nav.skills].map((item, index) => {
+                const sectionId = ['about', 'experience', 'projects', 'skills'][index];
+                return (
+                  <button
+                    key={sectionId}
+                    onClick={() => scrollTo(sectionId)}
+                    aria-current={activeSection === sectionId ? 'page' : undefined}
+                    className={`${
+                      activeSection === sectionId
+                        ? 'bg-sunset text-white shadow-lg shadow-sunset/20'
+                        : 'text-slate-600 hover:text-slate-900 hover:bg-slate-50'
+                    } px-5 py-2 rounded-xl text-sm font-bold transition-all duration-300 focus-visible:ring-2 focus-visible:ring-sunset focus-visible:ring-offset-2`}
+                  >
+                    {item}
+                  </button>
+                );
+              })}
             </div>
             
             <div className="flex items-center gap-3">
+              {/* Language Toggle */}
+              <button
+                onClick={toggleLanguage}
+                className="p-2.5 rounded-xl bg-slate-50 hover:bg-slate-100 text-slate-600 hover:text-slate-900 transition-all focus-visible:ring-2 focus-visible:ring-sunset print:hidden"
+                aria-label={`Switch to ${language === 'de' ? 'English' : 'German'}`}
+                title={`Switch to ${language === 'de' ? 'English' : 'German'}`}
+              >
+                <Languages className="w-5 h-5" aria-hidden={true} />
+                <span className="ml-1 text-xs font-bold uppercase">{language === 'de' ? 'EN' : 'DE'}</span>
+              </button>
+
+              {/* PDF Download Button */}
+              <button
+                onClick={handlePrintPDF}
+                className="hidden md:flex items-center gap-2 px-4 py-2.5 rounded-xl bg-slate-50 hover:bg-slate-100 text-slate-600 hover:text-slate-900 transition-all focus-visible:ring-2 focus-visible:ring-sunset print:hidden"
+                aria-label={t.buttons.downloadPDF}
+                title={t.buttons.downloadPDF}
+              >
+                <Download className="w-4 h-4" aria-hidden={true} />
+                <span className="text-sm font-bold">PDF</span>
+              </button>
+
                <button 
                 onClick={() => scrollTo('contact')}
                 className="hidden md:flex btn-sunset px-6 py-2.5 rounded-xl text-white font-black text-sm transition-all hover:scale-105 active:scale-95 focus-visible:ring-2 focus-visible:ring-sunset focus-visible:ring-offset-2"
               >
-                Let's Talk
+                {t.buttons.letsTalk}
               </button>
               <button 
                 onClick={() => scrollTo('contact')}
                 className="md:hidden p-2 rounded-xl bg-sunset text-white focus-visible:ring-2 focus-visible:ring-sunset"
-                aria-label="Kontaktbereich öffnen"
+                aria-label={t.nav.contactSection}
               >
                 <Mail className="w-5 h-5" aria-hidden={true} />
               </button>
@@ -286,7 +323,7 @@ const App: React.FC = () => {
                   <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-meadow-200 opacity-75"></span>
                   <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-meadow-200"></span>
                 </span>
-                {PROFILE.status}
+                {t.hero.status}
               </div>
               
               <div className="space-y-4">
@@ -294,12 +331,12 @@ const App: React.FC = () => {
                   {PROFILE.name}
                 </h1>
                 <p className="text-3xl md:text-4xl font-extrabold text-sunset-gradient">
-                  {PROFILE.title}
+                  {t.profile.title}
                 </p>
               </div>
               
               <p className="text-xl text-slate-700 font-medium leading-relaxed max-w-2xl">
-                {PROFILE.shortBio}
+                {t.profile.shortBio}
               </p>
 
               <div className="flex flex-wrap gap-5 pt-4">
@@ -307,9 +344,9 @@ const App: React.FC = () => {
                   onClick={() => scrollTo('contact')}
                   className="btn-sunset px-10 py-5 rounded-3xl text-white font-black text-lg transition-all hover:scale-105 hover:shadow-xl active:scale-95 focus-visible:ring-4 focus-visible:ring-sunset/30"
                 >
-                  Starten wir ein Projekt
+                  {t.hero.cta}
                 </button>
-                <div className="flex items-center gap-2" role="group" aria-label="Soziale Netzwerke und Links">
+                <div className="flex items-center gap-2" role="group" aria-label={t.nav.socialLinks}>
                   {/* Filter out Blog link in the hero section for a cleaner profile focus */}
                   {SOCIAL_LINKS.filter(link => link.name !== 'Blog').map((link) => (
                     <a
@@ -331,7 +368,7 @@ const App: React.FC = () => {
               
               <div className="flex items-center gap-3 text-slate-600 font-bold">
                 <MapPin className="w-5 h-5 text-sunset" aria-hidden={true} />
-                <span>{PROFILE.location}</span>
+                <span>{t.hero.location}</span>
               </div>
             </div>
             
@@ -370,11 +407,11 @@ const App: React.FC = () => {
               <div className="p-3 rounded-3xl bg-sky-pink" aria-hidden={true}>
                 <Cpu className="w-8 h-8 text-sunset" />
               </div>
-              <h2 id="about-heading" className="text-4xl font-black text-slate-900 tracking-tighter">Wer bin ich?</h2>
+              <h2 id="about-heading" className="text-4xl font-black text-slate-900 tracking-tighter">{t.sections.aboutHeading}</h2>
             </div>
             
             <div className="space-y-8 text-slate-700">
-              {PROFILE.about.split('\n\n').map((paragraph, idx) => (
+              {t.profile.about.split('\n\n').map((paragraph, idx) => (
                 <p key={idx} className="text-xl leading-relaxed font-medium">
                   {paragraph}
                 </p>
@@ -394,11 +431,11 @@ const App: React.FC = () => {
               <div className="p-3 rounded-3xl bg-sky-orange" aria-hidden={true}>
                 <Briefcase className="w-8 h-8 text-orange-600" />
               </div>
-              <h2 id="exp-heading" className="text-4xl font-black text-slate-900 tracking-tighter">Meine Reise</h2>
+              <h2 id="exp-heading" className="text-4xl font-black text-slate-900 tracking-tighter">{t.sections.experienceHeading}</h2>
             </div>
 
             <div className="space-y-24">
-              {EXPERIENCE.map((job) => (
+              {experience.map((job) => (
                 <article 
                   key={job.id} 
                   className="grid grid-cols-1 md:grid-cols-12 gap-8 group"
@@ -430,7 +467,7 @@ const App: React.FC = () => {
                     </ul>
 
                     <div className="flex flex-wrap gap-3 pt-4">
-                      <p className="sr-only">Verwendete Technologien:</p>
+                      <p className="sr-only">{t.sections.techUsed}</p>
                       {job.techStack.map((tech) => (
                         <span 
                           key={tech} 
@@ -458,11 +495,11 @@ const App: React.FC = () => {
               <div className="p-3 rounded-3xl bg-meadow-100" aria-hidden={true}>
                 <Code2 className="w-8 h-8 text-meadow-800" />
               </div>
-              <h2 id="projects-heading" className="text-4xl font-black text-slate-900 tracking-tighter">Open Source Herzblut</h2>
+              <h2 id="projects-heading" className="text-4xl font-black text-slate-900 tracking-tighter">{t.sections.projectsHeading}</h2>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
-              {PROJECTS.map((project) => (
+              {projects.map((project) => (
                 <a 
                   key={project.id} 
                   href={project.url}
@@ -492,7 +529,7 @@ const App: React.FC = () => {
                   </p>
 
                   <div className="flex flex-wrap gap-2">
-                    <p className="sr-only">Projekt-Tags:</p>
+                    <p className="sr-only">{t.sections.projectTags}</p>
                     {project.tags.map(tag => (
                       <span key={tag} className="px-4 py-1.5 rounded-xl bg-white text-slate-500 font-bold text-[10px] uppercase tracking-widest border border-slate-200">
                         {tag}
@@ -517,7 +554,7 @@ const App: React.FC = () => {
               <div className="p-3 rounded-3xl bg-sky-pink" aria-hidden={true}>
                 <LayersIcon className="w-8 h-8 text-sunset" />
               </div>
-              <h2 id="skills-heading" className="text-4xl font-black text-slate-900 tracking-tighter">Werkzeugkasten</h2>
+              <h2 id="skills-heading" className="text-4xl font-black text-slate-900 tracking-tighter">{t.sections.skillsHeading}</h2>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
@@ -545,33 +582,33 @@ const App: React.FC = () => {
       {/* Footer / Contact */}
       <footer 
         id="contact" 
-        className="py-32 bg-white border-t border-slate-100 relative overflow-hidden" 
+        className="py-32 bg-white border-t border-slate-100 relative overflow-hidden print:pt-16 print:pb-8" 
         aria-labelledby="footer-heading"
       >
         <div className="max-w-6xl mx-auto px-6 text-center">
-          <div className="inline-block mb-10">
+          <div className="inline-block mb-10 print:mb-4">
             <div className="p-6 rounded-[35px] bg-sunset-50" aria-hidden={true}>
-              <Sparkles className="w-12 h-12 text-sunset animate-pulse" />
+              <Sparkles className="w-12 h-12 text-sunset animate-pulse print:animate-none" />
             </div>
           </div>
-          <h2 id="footer-heading" className="text-5xl md:text-7xl font-black text-slate-900 tracking-tighter mb-8">
-            Bereit für den nächsten Schritt?
+          <h2 id="footer-heading" className="text-5xl md:text-7xl font-black text-slate-900 tracking-tighter mb-8 print:text-4xl print:mb-4">
+            {t.contact.heading}
           </h2>
-          <p className="text-2xl text-slate-600 font-medium mb-16 max-w-2xl mx-auto">
-            Ich bin aktuell offen für neue Herausforderungen als Senior PHP Developer oder Software Architect.
+          <p className="text-2xl text-slate-600 font-medium mb-16 max-w-2xl mx-auto print:text-lg print:mb-8">
+            {t.contact.subheading}
           </p>
           
-          <div className="flex flex-wrap justify-center items-stretch gap-6 mb-24 max-w-5xl mx-auto">
+          <div className="flex flex-wrap justify-center items-stretch gap-6 mb-24 max-w-5xl mx-auto print:hidden">
              {/* Email Button */}
              <a 
                href={`mailto:${PROFILE.email}`} 
                className="group flex-1 min-w-[280px] flex flex-col items-center justify-center p-8 rounded-[2.5rem] bg-gradient-to-br from-rose-500 to-orange-500 text-white transition-all duration-500 hover:-translate-y-2 hover:shadow-2xl hover:shadow-rose-500/30 focus-visible:ring-4 focus-visible:ring-rose-500/30"
-               aria-label={`E-Mail senden an ${PROFILE.email}`}
+               aria-label={`${t.contact.emailSend} ${PROFILE.email}`}
              >
                <div className="mb-4 p-4 rounded-3xl bg-white/20 backdrop-blur group-hover:scale-110 transition-transform duration-500">
                 <Mail className="w-8 h-8" aria-hidden={true} />
                </div>
-               <span className="text-xl font-black tracking-tight mb-1">E-Mail senden</span>
+               <span className="text-xl font-black tracking-tight mb-1">{t.contact.emailSend}</span>
                <span className="text-sm font-bold opacity-80">{PROFILE.email}</span>
              </a>
 
@@ -579,13 +616,13 @@ const App: React.FC = () => {
              <button 
                onClick={openWhatsApp}
                className="group flex-1 min-w-[280px] flex flex-col items-center justify-center p-8 rounded-[2.5rem] bg-gradient-to-br from-emerald-500 to-teal-600 text-white transition-all duration-500 hover:-translate-y-2 hover:shadow-2xl hover:shadow-emerald-500/30 focus-visible:ring-4 focus-visible:ring-emerald-500/30"
-               aria-label="WhatsApp Nachricht senden (öffnet in neuem Fenster oder App)"
+               aria-label={`${t.contact.whatsapp} ${t.contact.whatsappDirect}`}
              >
                <div className="mb-4 p-4 rounded-3xl bg-white/20 backdrop-blur group-hover:rotate-[15deg] transition-transform duration-500">
                 <MessageCircle className="w-8 h-8" aria-hidden={true} />
                </div>
-               <span className="text-xl font-black tracking-tight mb-1">WhatsApp</span>
-               <span className="text-sm font-bold opacity-80">Direkter Draht</span>
+               <span className="text-xl font-black tracking-tight mb-1">{t.contact.whatsapp}</span>
+               <span className="text-sm font-bold opacity-80">{t.contact.whatsappDirect}</span>
              </button>
 
              {/* GitHub Button */}
@@ -594,13 +631,13 @@ const App: React.FC = () => {
                target="_blank" 
                rel="noopener noreferrer" 
                className="group flex-1 min-w-[280px] flex flex-col items-center justify-center p-8 rounded-[2.5rem] bg-gradient-to-br from-slate-800 to-slate-950 text-white transition-all duration-500 hover:-translate-y-2 hover:shadow-2xl hover:shadow-slate-900/40 focus-visible:ring-4 focus-visible:ring-slate-500/30"
-               aria-label="GitHub Profil von Lars Moelleken besuchen (öffnet in neuem Fenster)"
+               aria-label={`GitHub ${t.contact.gitProfile}`}
              >
                <div className="mb-4 p-4 rounded-3xl bg-white/10 backdrop-blur group-hover:scale-110 transition-transform duration-500">
                 <Github className="w-8 h-8 text-sunset" aria-hidden={true} />
                </div>
-               <span className="text-xl font-mono font-bold tracking-tight mb-1">git push voku</span>
-               <span className="text-sm font-mono opacity-80">Open Source Profile</span>
+               <span className="text-xl font-mono font-bold tracking-tight mb-1">{t.contact.gitPush}</span>
+               <span className="text-sm font-mono opacity-80">{t.contact.gitProfile}</span>
              </a>
 
              {/* LinkedIn Button */}
@@ -609,13 +646,13 @@ const App: React.FC = () => {
                target="_blank" 
                rel="noopener noreferrer" 
                className="group flex-1 min-w-[280px] flex flex-col items-center justify-center p-8 rounded-[2.5rem] bg-gradient-to-br from-blue-600 to-indigo-700 text-white transition-all duration-500 hover:-translate-y-2 hover:shadow-2xl hover:shadow-blue-600/30 focus-visible:ring-4 focus-visible:ring-blue-600/30"
-               aria-label="LinkedIn Profil besuchen (öffnet in neuem Fenster)"
+               aria-label={`${t.contact.linkedin} ${t.contact.linkedinNetwork}`}
              >
                <div className="mb-4 p-4 rounded-3xl bg-white/20 backdrop-blur group-hover:translate-x-1 transition-transform duration-500">
                 <Linkedin className="w-8 h-8" aria-hidden={true} />
                </div>
-               <span className="text-xl font-black tracking-tight mb-1">LinkedIn</span>
-               <span className="text-sm font-bold opacity-80">Professional Network</span>
+               <span className="text-xl font-black tracking-tight mb-1">{t.contact.linkedin}</span>
+               <span className="text-sm font-bold opacity-80">{t.contact.linkedinNetwork}</span>
              </a>
 
              {/* Blog Button */}
@@ -624,22 +661,43 @@ const App: React.FC = () => {
                target="_blank" 
                rel="noopener noreferrer" 
                className="group flex-1 min-w-[280px] flex flex-col items-center justify-center p-8 rounded-[2.5rem] bg-gradient-to-br from-amber-400 to-orange-500 text-white transition-all duration-500 hover:-translate-y-2 hover:shadow-2xl hover:shadow-amber-400/30 focus-visible:ring-4 focus-visible:ring-amber-400/30"
-               aria-label="Besuche Lars Moellekens Blog (suckup.de, öffnet in neuem Fenster)"
+               aria-label={`${t.contact.blog} suckup.de`}
              >
                <div className="mb-4 p-4 rounded-3xl bg-white/20 backdrop-blur group-hover:scale-110 transition-transform duration-500">
                 <BookOpen className="w-8 h-8" aria-hidden={true} />
                </div>
-               <span className="text-xl font-black tracking-tight mb-1">Tech-Blog</span>
+               <span className="text-xl font-black tracking-tight mb-1">{t.contact.blog}</span>
                <span className="text-sm font-bold opacity-80">suckup.de</span>
              </a>
           </div>
 
-          <div className="pt-20 border-t border-slate-100 text-slate-500 font-bold space-y-4">
-            <p className="text-lg">© {new Date().getFullYear()} Lars Moelleken — Senior Software Architect</p>
-            <nav className="flex justify-center gap-4 text-sm uppercase tracking-widest font-black" aria-label="Sekundärnavigation im Footer">
-              <span className="text-sunset-dark">NRW</span>
+          {/* Print-only contact information */}
+          <div className="hidden print:block text-left max-w-2xl mx-auto mb-8">
+            <div className="space-y-4">
+              <div className="flex items-center gap-3">
+                <Mail className="w-5 h-5 text-sunset" />
+                <span className="font-bold">Email:</span>
+                <span>{PROFILE.email}</span>
+              </div>
+              <div className="flex items-center gap-3">
+                <Github className="w-5 h-5 text-sunset" />
+                <span className="font-bold">GitHub:</span>
+                <span>github.com/voku</span>
+              </div>
+              <div className="flex items-center gap-3">
+                <Globe className="w-5 h-5 text-sunset" />
+                <span className="font-bold">Website:</span>
+                <span>moelleken.org</span>
+              </div>
+            </div>
+          </div>
+
+          <div className="pt-20 border-t border-slate-100 text-slate-500 font-bold space-y-4 print:pt-8">
+            <p className="text-lg">{t.contact.footer.replace('{year}', new Date().getFullYear().toString())}</p>
+            <nav className="flex justify-center gap-4 text-sm uppercase tracking-widest font-black" aria-label={language === 'de' ? 'Sekundärnavigation im Footer' : 'Secondary navigation in footer'}>
+              <span className="text-sunset-dark">{t.contact.location.split(' / ')[0]}</span>
               <span aria-hidden="true">/</span>
-              <span>Remote</span>
+              <span>{t.contact.location.split(' / ')[1]}</span>
               <span aria-hidden="true">/</span>
               <a 
                 href="https://moelleken.org" 
@@ -656,8 +714,8 @@ const App: React.FC = () => {
       </footer>
       
       {/* Visual background elements */}
-      <div className="fixed bottom-10 left-10 w-64 h-64 bg-meadow-100/30 rounded-full blur-3xl pointer-events-none -z-10" aria-hidden="true"></div>
-      <div className="fixed top-1/2 right-10 w-96 h-96 bg-sky-pink/20 rounded-full blur-[120px] pointer-events-none -z-10" aria-hidden="true"></div>
+      <div className="fixed bottom-10 left-10 w-64 h-64 bg-meadow-100/30 rounded-full blur-3xl pointer-events-none -z-10 print:hidden" aria-hidden="true"></div>
+      <div className="fixed top-1/2 right-10 w-96 h-96 bg-sky-pink/20 rounded-full blur-[120px] pointer-events-none -z-10 print:hidden" aria-hidden="true"></div>
     </div>
   );
 };

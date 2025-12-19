@@ -112,6 +112,67 @@
           scroll-behavior: auto;
         }
       }
+
+      /* Print-specific styles for PDF generation */
+      @media print {
+        /* Remove fixed positioning and interactive elements */
+        header {
+          display: none !important;
+        }
+
+        /* Optimize page breaks */
+        section {
+          page-break-inside: avoid;
+          break-inside: avoid;
+        }
+
+        article {
+          page-break-inside: avoid;
+          break-inside: avoid;
+        }
+
+        /* Remove background effects */
+        .light-beam,
+        .sunset-sky-bg {
+          background: white !important;
+        }
+
+        /* Optimize font sizes for print */
+        body {
+          font-size: 12pt;
+          line-height: 1.5;
+        }
+
+        h1 {
+          font-size: 32pt;
+        }
+
+        h2 {
+          font-size: 24pt;
+        }
+
+        h3 {
+          font-size: 18pt;
+        }
+
+        /* Remove shadows and animations */
+        * {
+          box-shadow: none !important;
+          animation: none !important;
+          transition: none !important;
+        }
+
+        /* Ensure links are visible */
+        a[href^="http"]:after {
+          content: none !important;
+        }
+
+        /* Optimize colors for print */
+        .glass-card {
+          background: white !important;
+          border: 1px solid #e2e8f0 !important;
+        }
+      }
     </style>
   <script type="importmap">
 {
