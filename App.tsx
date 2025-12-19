@@ -344,11 +344,11 @@ const App: React.FC = () => {
               <div className="flex flex-wrap gap-5 pt-4">
                 <button 
                   onClick={() => scrollTo('contact')}
-                  className="btn-sunset px-10 py-5 rounded-3xl text-white font-black text-lg transition-all hover:scale-105 hover:shadow-xl active:scale-95 focus-visible:ring-4 focus-visible:ring-sunset/30"
+                  className="btn-sunset px-10 py-5 rounded-3xl text-white font-black text-lg transition-all hover:scale-105 hover:shadow-xl active:scale-95 focus-visible:ring-4 focus-visible:ring-sunset/30 print:hidden"
                 >
                   {t.hero.cta}
                 </button>
-                <div className="flex items-center gap-2" role="group" aria-label={t.nav.socialLinks}>
+                <div className="flex items-center gap-2 print:flex-col print:items-start print:gap-1" role="group" aria-label={t.nav.socialLinks}>
                   {/* Filter out Blog link in the hero section for a cleaner profile focus */}
                   {SOCIAL_LINKS.filter(link => link.name !== 'Blog').map((link) => (
                     <a
@@ -356,13 +356,14 @@ const App: React.FC = () => {
                       href={link.url}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="group p-4 bg-white/50 hover:bg-white text-slate-700 rounded-2xl border border-white shadow-sm transition-all duration-300 hover:-translate-y-2 hover:scale-110 hover:shadow-xl hover:border-sunset/30 focus-visible:ring-2 focus-visible:ring-sunset"
+                      className="group p-4 bg-white/50 hover:bg-white text-slate-700 rounded-2xl border border-white shadow-sm transition-all duration-300 hover:-translate-y-2 hover:scale-110 hover:shadow-xl hover:border-sunset/30 focus-visible:ring-2 focus-visible:ring-sunset print:p-0 print:bg-transparent print:border-0 print:shadow-none print:flex print:items-center print:gap-2"
                       aria-label={`Besuche mein ${link.name} Profil (öffnet in neuem Fenster)`}
                     >
-                      {link.icon === 'github' && <Github className="w-5 h-5 text-sunset transition-colors group-hover:text-sunset-dark" aria-hidden={true} />}
-                      {link.icon === 'linkedin' && <Linkedin className="w-5 h-5 text-sunset transition-colors group-hover:text-sunset-dark" aria-hidden={true} />}
-                      {link.icon === 'globe' && <Globe className="w-5 h-5 text-sunset transition-colors group-hover:text-sunset-dark" aria-hidden={true} />}
-                      {link.icon === 'book' && <BookOpen className="w-5 h-5 text-sunset transition-colors group-hover:text-sunset-dark" aria-hidden={true} />}
+                      {link.icon === 'github' && <Github className="w-5 h-5 text-sunset transition-colors group-hover:text-sunset-dark print:w-4 print:h-4" aria-hidden={true} />}
+                      {link.icon === 'linkedin' && <Linkedin className="w-5 h-5 text-sunset transition-colors group-hover:text-sunset-dark print:w-4 print:h-4" aria-hidden={true} />}
+                      {link.icon === 'globe' && <Globe className="w-5 h-5 text-sunset transition-colors group-hover:text-sunset-dark print:w-4 print:h-4" aria-hidden={true} />}
+                      {link.icon === 'book' && <BookOpen className="w-5 h-5 text-sunset transition-colors group-hover:text-sunset-dark print:w-4 print:h-4" aria-hidden={true} />}
+                      <span className="hidden print:inline print:text-sm">{link.name}</span>
                     </a>
                   ))}
                 </div>
@@ -600,24 +601,24 @@ const App: React.FC = () => {
             {t.contact.subheading}
           </p>
           
-          <div className="flex flex-wrap justify-center items-stretch gap-6 mb-24 max-w-5xl mx-auto print:hidden">
+          <div className="flex flex-wrap justify-center items-stretch gap-6 mb-24 max-w-5xl mx-auto print:flex-col print:gap-4">
              {/* Email Button */}
              <a 
                href={`mailto:${PROFILE.email}`} 
-               className="group flex-1 min-w-[280px] flex flex-col items-center justify-center p-8 rounded-[2.5rem] bg-gradient-to-br from-rose-500 to-orange-500 text-white transition-all duration-500 hover:-translate-y-2 hover:shadow-2xl hover:shadow-rose-500/30 focus-visible:ring-4 focus-visible:ring-rose-500/30"
+               className="group flex-1 min-w-[280px] flex flex-col items-center justify-center p-8 rounded-[2.5rem] bg-gradient-to-br from-rose-500 to-orange-500 text-white transition-all duration-500 hover:-translate-y-2 hover:shadow-2xl hover:shadow-rose-500/30 focus-visible:ring-4 focus-visible:ring-rose-500/30 print:p-2 print:bg-transparent print:text-slate-700 print:rounded-none print:min-w-0 print:flex-row print:justify-start"
                aria-label={`${t.contact.emailSend} ${PROFILE.email}`}
              >
-               <div className="mb-4 p-4 rounded-3xl bg-white/20 backdrop-blur group-hover:scale-110 transition-transform duration-500">
-                <Mail className="w-8 h-8" aria-hidden={true} />
+               <div className="mb-4 p-4 rounded-3xl bg-white/20 backdrop-blur group-hover:scale-110 transition-transform duration-500 print:mb-0 print:p-0 print:bg-transparent print:mr-2">
+                <Mail className="w-8 h-8 print:w-4 print:h-4 print:text-sunset" aria-hidden={true} />
                </div>
-               <span className="text-xl font-black tracking-tight mb-1">{t.contact.emailSend}</span>
-               <span className="text-sm font-bold opacity-80">{PROFILE.email}</span>
+               <span className="text-xl font-black tracking-tight mb-1 print:text-sm print:mb-0 print:mr-2 print:font-bold">{t.contact.emailSend}:</span>
+               <span className="text-sm font-bold opacity-80 print:text-sm print:opacity-100">{PROFILE.email}</span>
              </a>
 
-             {/* WhatsApp Button */}
+             {/* WhatsApp Button - hidden in print */}
              <button 
                onClick={openWhatsApp}
-               className="group flex-1 min-w-[280px] flex flex-col items-center justify-center p-8 rounded-[2.5rem] bg-gradient-to-br from-emerald-500 to-teal-600 text-white transition-all duration-500 hover:-translate-y-2 hover:shadow-2xl hover:shadow-emerald-500/30 focus-visible:ring-4 focus-visible:ring-emerald-500/30"
+               className="group flex-1 min-w-[280px] flex flex-col items-center justify-center p-8 rounded-[2.5rem] bg-gradient-to-br from-emerald-500 to-teal-600 text-white transition-all duration-500 hover:-translate-y-2 hover:shadow-2xl hover:shadow-emerald-500/30 focus-visible:ring-4 focus-visible:ring-emerald-500/30 print:hidden"
                aria-label={`${t.contact.whatsapp} ${t.contact.whatsappDirect}`}
              >
                <div className="mb-4 p-4 rounded-3xl bg-white/20 backdrop-blur group-hover:rotate-[15deg] transition-transform duration-500">
@@ -632,14 +633,14 @@ const App: React.FC = () => {
                href="https://github.com/voku" 
                target="_blank" 
                rel="noopener noreferrer" 
-               className="group flex-1 min-w-[280px] flex flex-col items-center justify-center p-8 rounded-[2.5rem] bg-gradient-to-br from-slate-800 to-slate-950 text-white transition-all duration-500 hover:-translate-y-2 hover:shadow-2xl hover:shadow-slate-900/40 focus-visible:ring-4 focus-visible:ring-slate-500/30"
+               className="group flex-1 min-w-[280px] flex flex-col items-center justify-center p-8 rounded-[2.5rem] bg-gradient-to-br from-slate-800 to-slate-950 text-white transition-all duration-500 hover:-translate-y-2 hover:shadow-2xl hover:shadow-slate-900/40 focus-visible:ring-4 focus-visible:ring-slate-500/30 print:p-2 print:bg-transparent print:text-slate-700 print:rounded-none print:min-w-0 print:flex-row print:justify-start"
                aria-label={`GitHub ${t.contact.gitProfile}`}
              >
-               <div className="mb-4 p-4 rounded-3xl bg-white/10 backdrop-blur group-hover:scale-110 transition-transform duration-500">
-                <Github className="w-8 h-8 text-sunset" aria-hidden={true} />
+               <div className="mb-4 p-4 rounded-3xl bg-white/10 backdrop-blur group-hover:scale-110 transition-transform duration-500 print:mb-0 print:p-0 print:bg-transparent print:mr-2">
+                <Github className="w-8 h-8 text-sunset print:w-4 print:h-4" aria-hidden={true} />
                </div>
-               <span className="text-xl font-mono font-bold tracking-tight mb-1">{t.contact.gitPush}</span>
-               <span className="text-sm font-mono opacity-80">{t.contact.gitProfile}</span>
+               <span className="text-xl font-mono font-bold tracking-tight mb-1 print:text-sm print:mb-0 print:mr-2 print:font-bold">{t.contact.gitPush}:</span>
+               <span className="text-sm font-mono opacity-80 print:text-sm print:opacity-100">{t.contact.gitProfile}</span>
              </a>
 
              {/* LinkedIn Button */}
@@ -647,14 +648,14 @@ const App: React.FC = () => {
                href="https://linkedin.com" 
                target="_blank" 
                rel="noopener noreferrer" 
-               className="group flex-1 min-w-[280px] flex flex-col items-center justify-center p-8 rounded-[2.5rem] bg-gradient-to-br from-blue-600 to-indigo-700 text-white transition-all duration-500 hover:-translate-y-2 hover:shadow-2xl hover:shadow-blue-600/30 focus-visible:ring-4 focus-visible:ring-blue-600/30"
+               className="group flex-1 min-w-[280px] flex flex-col items-center justify-center p-8 rounded-[2.5rem] bg-gradient-to-br from-blue-600 to-indigo-700 text-white transition-all duration-500 hover:-translate-y-2 hover:shadow-2xl hover:shadow-blue-600/30 focus-visible:ring-4 focus-visible:ring-blue-600/30 print:p-2 print:bg-transparent print:text-slate-700 print:rounded-none print:min-w-0 print:flex-row print:justify-start"
                aria-label={`${t.contact.linkedin} ${t.contact.linkedinNetwork}`}
              >
-               <div className="mb-4 p-4 rounded-3xl bg-white/20 backdrop-blur group-hover:translate-x-1 transition-transform duration-500">
-                <Linkedin className="w-8 h-8" aria-hidden={true} />
+               <div className="mb-4 p-4 rounded-3xl bg-white/20 backdrop-blur group-hover:translate-x-1 transition-transform duration-500 print:mb-0 print:p-0 print:bg-transparent print:mr-2">
+                <Linkedin className="w-8 h-8 print:w-4 print:h-4 print:text-sunset" aria-hidden={true} />
                </div>
-               <span className="text-xl font-black tracking-tight mb-1">{t.contact.linkedin}</span>
-               <span className="text-sm font-bold opacity-80">{t.contact.linkedinNetwork}</span>
+               <span className="text-xl font-black tracking-tight mb-1 print:text-sm print:mb-0 print:mr-2 print:font-bold">{t.contact.linkedin}:</span>
+               <span className="text-sm font-bold opacity-80 print:text-sm print:opacity-100">{t.contact.linkedinNetwork}</span>
              </a>
 
              {/* Blog Button */}
@@ -662,14 +663,14 @@ const App: React.FC = () => {
                href="https://suckup.de" 
                target="_blank" 
                rel="noopener noreferrer" 
-               className="group flex-1 min-w-[280px] flex flex-col items-center justify-center p-8 rounded-[2.5rem] bg-gradient-to-br from-amber-400 to-orange-500 text-white transition-all duration-500 hover:-translate-y-2 hover:shadow-2xl hover:shadow-amber-400/30 focus-visible:ring-4 focus-visible:ring-amber-400/30"
+               className="group flex-1 min-w-[280px] flex flex-col items-center justify-center p-8 rounded-[2.5rem] bg-gradient-to-br from-amber-400 to-orange-500 text-white transition-all duration-500 hover:-translate-y-2 hover:shadow-2xl hover:shadow-amber-400/30 focus-visible:ring-4 focus-visible:ring-amber-400/30 print:p-2 print:bg-transparent print:text-slate-700 print:rounded-none print:min-w-0 print:flex-row print:justify-start"
                aria-label={`${t.contact.blog} suckup.de`}
              >
-               <div className="mb-4 p-4 rounded-3xl bg-white/20 backdrop-blur group-hover:scale-110 transition-transform duration-500">
-                <BookOpen className="w-8 h-8" aria-hidden={true} />
+               <div className="mb-4 p-4 rounded-3xl bg-white/20 backdrop-blur group-hover:scale-110 transition-transform duration-500 print:mb-0 print:p-0 print:bg-transparent print:mr-2">
+                <BookOpen className="w-8 h-8 print:w-4 print:h-4 print:text-sunset" aria-hidden={true} />
                </div>
-               <span className="text-xl font-black tracking-tight mb-1">{t.contact.blog}</span>
-               <span className="text-sm font-bold opacity-80">suckup.de</span>
+               <span className="text-xl font-black tracking-tight mb-1 print:text-sm print:mb-0 print:mr-2 print:font-bold">{t.contact.blog}:</span>
+               <span className="text-sm font-bold opacity-80 print:text-sm print:opacity-100">suckup.de</span>
              </a>
           </div>
 
