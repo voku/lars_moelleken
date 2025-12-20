@@ -115,6 +115,12 @@
 
       /* Print-specific styles for PDF generation */
       @media print {
+        /* Page setup for high-quality PDF */
+        @page {
+          size: A4;
+          margin: 1.5cm 1.5cm 2cm 1.5cm;
+        }
+
         /* Remove fixed positioning and interactive elements */
         header {
           display: none !important;
@@ -124,6 +130,7 @@
         section {
           page-break-inside: avoid;
           break-inside: avoid;
+          margin-bottom: 1.5cm;
         }
 
         article {
@@ -137,22 +144,35 @@
           background: white !important;
         }
 
-        /* Optimize font sizes for print */
+        /* High-quality print typography */
         body {
-          font-size: 12pt;
-          line-height: 1.5;
+          font-size: 11pt;
+          line-height: 1.6;
+          color: #1a1a1a; /* Rich black for better print quality */
         }
 
         h1 {
-          font-size: 32pt;
+          font-size: 28pt;
+          line-height: 1.2;
+          color: #000000;
         }
 
         h2 {
-          font-size: 24pt;
+          font-size: 20pt;
+          line-height: 1.3;
+          color: #1a1a1a;
+          margin-top: 0.5cm;
         }
 
         h3 {
-          font-size: 18pt;
+          font-size: 14pt;
+          line-height: 1.4;
+          color: #1a1a1a;
+        }
+
+        p {
+          orphans: 3;
+          widows: 3;
         }
 
         /* Remove shadows and animations */
@@ -162,15 +182,109 @@
           transition: none !important;
         }
 
-        /* Ensure links are visible */
-        a[href^="http"]:after {
-          content: none !important;
+        /* Show URLs for external links (but not for interactive buttons) */
+        a[href^="http"]:not(.group):not([class*="btn-"]):not([class*="rounded-"]):after {
+          content: " (" attr(href) ")";
+          font-size: 9pt;
+          color: #666;
+          word-break: break-all;
         }
 
-        /* Optimize colors for print */
+        /* Hide interactive elements that don't work in PDF */
+        button:not(.print\\:block),
+        [class*="animate-"],
+        .print\\:hidden {
+          display: none !important;
+        }
+
+        /* Keep project cards as links but show URL */
+        a.group[href^="http"] {
+          display: block !important;
+          text-decoration: none;
+          border: 1pt solid #e2e8f0;
+          page-break-inside: avoid;
+        }
+
+        /* Show URLs for project links */
+        a.group[href^="http"]:after {
+          content: " → " attr(href);
+          display: block;
+          font-size: 8pt;
+          color: #666;
+          margin-top: 0.3cm;
+          word-break: break-all;
+        }
+
+        /* Optimize colors for print - use rich black instead of pure black */
+        .text-slate-900 {
+          color: #1a1a1a !important;
+        }
+
+        .text-slate-700 {
+          color: #333333 !important;
+        }
+
+        .text-slate-600 {
+          color: #4a4a4a !important;
+        }
+
+        .text-slate-500 {
+          color: #666666 !important;
+        }
+
+        /* Keep brand color visible but optimized for print */
+        .text-sunset,
+        .text-sunset-dark {
+          color: #c12a44 !important; /* Darker version of sunset for better print visibility */
+        }
+
+        /* Optimize colors in glass cards and backgrounds */
         .glass-card {
           background: white !important;
-          border: 1px solid #e2e8f0 !important;
+          border: 1pt solid #d0d0d0 !important;
+        }
+
+        /* Optimize borders for print */
+        [class*="border-"] {
+          border-color: #d0d0d0 !important;
+        }
+
+        /* Ensure contact info in print is well formatted */
+        .print\\:block {
+          display: block !important;
+        }
+
+        /* Fix spacing in print mode */
+        .print\\:mb-4 {
+          margin-bottom: 0.4cm !important;
+        }
+
+        .print\\:mb-8 {
+          margin-bottom: 0.8cm !important;
+        }
+
+        .print\\:pt-8 {
+          padding-top: 0.8cm !important;
+        }
+
+        .print\\:pt-16 {
+          padding-top: 1.6cm !important;
+        }
+
+        .print\\:pb-8 {
+          padding-bottom: 0.8cm !important;
+        }
+
+        .print\\:text-4xl {
+          font-size: 20pt !important;
+        }
+
+        .print\\:text-lg {
+          font-size: 11pt !important;
+        }
+
+        .print\\:animate-none {
+          animation: none !important;
         }
       }
     </style>
