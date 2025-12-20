@@ -645,7 +645,7 @@ const App: React.FC = () => {
 
              {/* LinkedIn Button */}
              <a 
-               href="https://linkedin.com" 
+               href="https://www.linkedin.com/in/larsmoelleken" 
                target="_blank" 
                rel="noopener noreferrer" 
                className="group flex-1 min-w-[280px] flex flex-col items-center justify-center p-8 rounded-[2.5rem] bg-gradient-to-br from-blue-600 to-indigo-700 text-white transition-all duration-500 hover:-translate-y-2 hover:shadow-2xl hover:shadow-blue-600/30 focus-visible:ring-4 focus-visible:ring-blue-600/30 print:p-2 print:bg-transparent print:text-slate-700 print:rounded-none print:min-w-0 print:flex-row print:justify-start"
