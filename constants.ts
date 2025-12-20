@@ -26,7 +26,7 @@ export const PROFILE = {
 
 export const SOCIAL_LINKS: SocialLink[] = [
   { name: 'GitHub', url: 'https://github.com/voku/', icon: 'github' },
-  { name: 'LinkedIn', url: '#', icon: 'linkedin' },
+  { name: 'LinkedIn', url: 'https://www.linkedin.com/in/larsmoelleken', icon: 'linkedin' },
   { name: 'Website', url: 'https://moelleken.org', icon: 'globe' },
   { name: 'Blog', url: 'https://suckup.de', icon: 'book' },
 ];
