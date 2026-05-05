@@ -132,7 +132,7 @@ Was mich ausmacht:
     },
     buttons: {
       letsTalk: "Let's Talk",
-      downloadCV: 'CV herunterladen',
+      downloadCV: 'Lebenslauf herunterladen',
       downloadPDF: 'Als PDF speichern',
       downloadMarkdown: 'Markdown herunterladen',
       switchToEnglish: 'Auf Englisch umschalten',
