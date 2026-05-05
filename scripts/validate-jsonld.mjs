@@ -77,7 +77,15 @@ function hasSchemaOrgContext(node) {
     return false;
   }
 
-  return contextContainsSchemaOrg(node['@context']);
+  if (contextContainsSchemaOrg(node['@context'])) {
+    return true;
+  }
+
+  if (Array.isArray(node['@graph']) && node['@graph'].length > 0) {
+    return node['@graph'].every(hasSchemaOrgContext);
+  }
+
+  return false;
 }
 
 function contextContainsSchemaOrg(contextValue) {
