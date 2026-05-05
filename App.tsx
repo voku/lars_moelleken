@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { 
   Github, 
   Linkedin, 
@@ -165,6 +165,9 @@ const SkillIcon: React.FC<{ iconName: string }> = ({ iconName }) => {
 const App: React.FC = () => {
   const { language, setLanguage, t, experience, projects } = useLanguage();
   const [activeSection, setActiveSection] = useState('home');
+  const [isDownloadMenuOpen, setIsDownloadMenuOpen] = useState(false);
+  const downloadMenuRef = useRef<HTMLDivElement>(null);
+  const cvMarkdownUrl = `${import.meta.env.BASE_URL}cv.md`;
 
   useEffect(() => {
     const handleScroll = () => {
@@ -184,6 +187,28 @@ const App: React.FC = () => {
 
     window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  useEffect(() => {
+    const handleOutsideClick = (event: MouseEvent) => {
+      if (!downloadMenuRef.current?.contains(event.target as Node)) {
+        setIsDownloadMenuOpen(false);
+      }
+    };
+
+    const handleEscape = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') {
+        setIsDownloadMenuOpen(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleOutsideClick);
+    document.addEventListener('keydown', handleEscape);
+
+    return () => {
+      document.removeEventListener('mousedown', handleOutsideClick);
+      document.removeEventListener('keydown', handleEscape);
+    };
   }, []);
 
   const scrollTo = (id: string) => {
@@ -210,6 +235,7 @@ const App: React.FC = () => {
   };
 
   const handlePrintPDF = () => {
+    setIsDownloadMenuOpen(false);
     window.print();
   };
 
@@ -277,16 +303,46 @@ const App: React.FC = () => {
                 <span className="ml-1 text-xs font-bold uppercase">{language === 'de' ? 'EN' : 'DE'}</span>
               </button>
 
-              {/* PDF Download Button */}
-              <button
-                onClick={handlePrintPDF}
-                className="hidden md:flex items-center gap-2 px-4 py-2.5 rounded-xl bg-slate-50 hover:bg-slate-100 text-slate-600 hover:text-slate-900 transition-all focus-visible:ring-2 focus-visible:ring-sunset print:hidden"
-                aria-label={t.buttons.downloadPDF}
-                title={t.buttons.downloadPDF}
-              >
-                <Download className="w-4 h-4" aria-hidden={true} />
-                <span className="text-sm font-bold">PDF</span>
-              </button>
+              <div className="relative print:hidden" ref={downloadMenuRef}>
+                <button
+                  onClick={() => setIsDownloadMenuOpen(current => !current)}
+                  className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-slate-50 hover:bg-slate-100 text-slate-600 hover:text-slate-900 transition-all focus-visible:ring-2 focus-visible:ring-sunset"
+                  aria-label={t.buttons.downloadCV}
+                  aria-haspopup="menu"
+                  aria-expanded={isDownloadMenuOpen}
+                  title={t.buttons.downloadCV}
+                >
+                  <Download className="w-4 h-4" aria-hidden={true} />
+                  <span className="text-sm font-bold">CV</span>
+                </button>
+
+                {isDownloadMenuOpen && (
+                  <div
+                    className="absolute right-0 mt-2 w-52 rounded-2xl border border-slate-200 bg-white p-2 shadow-xl shadow-slate-200/60"
+                    role="menu"
+                    aria-label={t.buttons.downloadCV}
+                  >
+                    <button
+                      onClick={handlePrintPDF}
+                      className="flex w-full items-center justify-between rounded-xl px-3 py-2 text-left text-sm font-bold text-slate-700 transition-colors hover:bg-slate-50 hover:text-slate-900 focus-visible:ring-2 focus-visible:ring-sunset"
+                      role="menuitem"
+                    >
+                      <span>{t.buttons.downloadPDF}</span>
+                      <span className="text-xs uppercase tracking-wide text-slate-400">PDF</span>
+                    </button>
+                    <a
+                      href={cvMarkdownUrl}
+                      download="lars-moelleken-cv.md"
+                      className="mt-1 flex items-center justify-between rounded-xl px-3 py-2 text-sm font-bold text-slate-700 transition-colors hover:bg-slate-50 hover:text-slate-900 focus-visible:ring-2 focus-visible:ring-sunset"
+                      role="menuitem"
+                      onClick={() => setIsDownloadMenuOpen(false)}
+                    >
+                      <span>{t.buttons.downloadMarkdown}</span>
+                      <span className="text-xs uppercase tracking-wide text-slate-400">MD</span>
+                    </a>
+                  </div>
+                )}
+              </div>
 
                <button 
                 onClick={() => scrollTo('contact')}

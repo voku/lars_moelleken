@@ -61,7 +61,9 @@ export interface Translations {
   // Buttons
   buttons: {
     letsTalk: string;
+    downloadCV: string;
     downloadPDF: string;
+    downloadMarkdown: string;
     switchToEnglish: string;
     switchToGerman: string;
   };
@@ -130,7 +132,9 @@ Was mich ausmacht:
     },
     buttons: {
       letsTalk: "Let's Talk",
+      downloadCV: 'CV herunterladen',
       downloadPDF: 'Als PDF speichern',
+      downloadMarkdown: 'Markdown herunterladen',
       switchToEnglish: 'Auf Englisch umschalten',
       switchToGerman: 'Auf Deutsch umschalten',
     },
@@ -197,7 +201,9 @@ What defines me:
     },
     buttons: {
       letsTalk: "Let's Talk",
+      downloadCV: 'Download CV',
       downloadPDF: 'Save as PDF',
+      downloadMarkdown: 'Download Markdown',
       switchToEnglish: 'Switch to English',
       switchToGerman: 'Switch to German',
     },
