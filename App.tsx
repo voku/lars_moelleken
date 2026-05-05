@@ -20,6 +20,9 @@ import {
 import { PROFILE, SKILLS, SOCIAL_LINKS } from './constants';
 import { useLanguage } from './LanguageContext';
 
+const CV_MARKDOWN_FILE_PATH = 'cv.md';
+const CV_MARKDOWN_DOWNLOAD_NAME = 'lars-moelleken-cv.md';
+
 const SkillIcon: React.FC<{ iconName: string }> = ({ iconName }) => {
   const commonProps = {
     viewBox: "0 0 24 24",
@@ -167,7 +170,7 @@ const App: React.FC = () => {
   const [activeSection, setActiveSection] = useState('home');
   const [isDownloadMenuOpen, setIsDownloadMenuOpen] = useState(false);
   const downloadMenuRef = useRef<HTMLDivElement>(null);
-  const cvMarkdownUrl = `${import.meta.env.BASE_URL}cv.md`;
+  const cvMarkdownUrl = `${import.meta.env.BASE_URL}${CV_MARKDOWN_FILE_PATH}`;
 
   useEffect(() => {
     const handleScroll = () => {
@@ -332,7 +335,7 @@ const App: React.FC = () => {
                     </button>
                     <a
                       href={cvMarkdownUrl}
-                      download="lars-moelleken-cv.md"
+                      download={CV_MARKDOWN_DOWNLOAD_NAME}
                       className="mt-1 flex items-center justify-between rounded-xl px-3 py-2 text-sm font-bold text-slate-700 transition-colors hover:bg-slate-50 hover:text-slate-900 focus-visible:ring-2 focus-visible:ring-sunset"
                       role="menuitem"
                       onClick={() => setIsDownloadMenuOpen(false)}
