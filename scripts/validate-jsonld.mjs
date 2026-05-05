@@ -34,6 +34,7 @@ async function walk(dir) {
 
 async function inspectFile(filePath) {
   const content = await readFile(filePath, 'utf8');
+  JSON_LD_PATTERN.lastIndex = 0;
   let match;
 
   while ((match = JSON_LD_PATTERN.exec(content)) !== null) {
